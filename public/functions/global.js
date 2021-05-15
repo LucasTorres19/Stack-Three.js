@@ -13,7 +13,13 @@ function setsize(){
 }
 function resize(){
     window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        let newSize = window.innerWidth / window.innerHeight;
+        
+        camera.left = - d * newSize;
+        camera.right = d * newSize;
+        camera.top = d;
+        camera.bottom = - d;
+
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.render( scene, camera );
