@@ -1,7 +1,8 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.128.0';
 
 const scene = new THREE.Scene();
-const aspect = window.innerWidth / window.innerHeight;
+scene.background = new THREE.Color( 'skyblue' );
+let aspect = window.innerWidth / window.innerHeight;
 const d = 20;
 const camera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 1, 1000 )
 
@@ -13,10 +14,10 @@ function setsize(){
 }
 function resize(){
     window.addEventListener('resize', () => {
-        let newSize = window.innerWidth / window.innerHeight;
+        aspect = window.innerWidth / window.innerHeight;
         
-        camera.left = - d * newSize;
-        camera.right = d * newSize;
+        camera.left = - d * aspect;
+        camera.right = d * aspect;
         camera.top = d;
         camera.bottom = - d;
 
