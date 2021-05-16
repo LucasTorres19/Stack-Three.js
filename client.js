@@ -3,12 +3,22 @@ import Base from './functions/Base.js'
 import Cube from './functions/Cube.js'
 import * as global from './functions/global.js';
 import gameProps from './functions/gameProps.js'
-import Circle from './functions/Circle.js'
 // const axes = new THREE.AxesHelper();
 // axes.scale.set( 10, 10, 10);
 
 const setup = function () {
-
+    const Circle = document.getElementById('circle')
+    Circle.style.left = '45vw'
+    Circle.style.top = '45vh'
+    Circle.addEventListener('click', function(){
+        console.log("Circle")
+        gameProps.points += 10
+        gameProps.UpdatePoints()
+        const x = Math.floor((Math.random()*95) + 1)
+        const y = Math.floor((Math.random()*95) + 1)
+        Circle.style.left = x + 'vw'
+        Circle.style.top = y + 'vh'
+    })
     global.scene.add( gameProps.base );
     global.scene.add( gameProps.cube );
     // global.scene.add( axes )
@@ -16,11 +26,17 @@ const setup = function () {
     global.camera.lookAt( global.scene.position ); 
     global.setsize()
     global.resize()
-    document.addEventListener('click', () => {
-        gameProps.clicked = true
+    document.getElementsByTagName('canvas')[0].addEventListener('click', () => {
+        if (!(gameProps.points - 7 <=0)){
+            gameProps.points -= 7
+        } else {
+            gameProps.points = 0
+        }
+        gameProps.UpdatePoints()
+
     }, false)
     document.addEventListener('keypress', (e) => {
-        if (e.target.key = " "){
+        if (e.key === " "){
             gameProps.clicked = true
         }
     }, false)
