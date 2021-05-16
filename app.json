@@ -1,0 +1,8 @@
+{
+    "name": "Start on Heroku: Node.js",
+    "description": "Stack hecho con Three.js",
+    "repository": "https://github.com/LucasTorres19/Stack-Three.js",
+    "logo": "https://cdn.rawgit.com/heroku/node-js-getting-started/main/public/node.svg",
+    "keywords": ["node", "express", "heroku","Three.js"],
+    "image": "heroku/nodejs"
+  }
