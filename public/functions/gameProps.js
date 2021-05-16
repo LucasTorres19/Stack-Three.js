@@ -3,7 +3,7 @@ import Cube from './Cube.js'
 import Base from './Base.js'
 const gameProps = {
     animateId: 0,
-    velocidad: 0.2,
+    velocidad: 0.4,
     largo: 10,
     ancho: 10,
     alto: 2,
@@ -11,7 +11,7 @@ const gameProps = {
     clicked: false,
     back: false,
     reset: function(){
-        this.velocidad = 0.2,
+        this.velocidad = 0.4,
         this.largo = 10,
         this.ancho = 10,
         this.alto = 2,
