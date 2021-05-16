@@ -4,6 +4,7 @@ import Base from './Base.js'
 const gameProps = {
     animateId: 0,
     velocidad: 0.4,
+    points: 0,
     largo: 10,
     ancho: 10,
     alto: 2,
@@ -16,12 +17,15 @@ const gameProps = {
                 global.scene.remove( cube )
             }
         })
-        this.velocidad = 0.4,
-        this.largo = 10,
-        this.ancho = 10,
-        this.alto = 2,
-        this.cubes = [this.base],
-        this.clicked = false,
+        
+        global.scene.position.y = 0
+        this.points = 0
+        this.velocidad = 0.4
+        this.largo = 10
+        this.ancho = 10
+        this.alto = 2
+        this.cubes = [this.base]
+        this.clicked = false
         this.back = false
         this.cubes[0].position.y = -15
     },
@@ -61,6 +65,12 @@ const gameProps = {
         }
         return false
     },
+    UpdatePoints: function(){
+        this.points += 15
+        document.getElementById('Points').innerHTML = this.points
+    }
+
+
 }
 gameProps.cube = Cube(gameProps.largo,gameProps.alto,gameProps.ancho,1)
 gameProps.base = Base(gameProps.largo)

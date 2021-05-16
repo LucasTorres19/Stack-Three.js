@@ -1,5 +1,5 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.128.0';
-import {d, aspect} from './global.js';
+import {d, aspect,scene} from './global.js';
 import addBorder from './Border.js'
 
 export default function Cube(width,height,depth,spawn,x=0,z=0){
@@ -9,9 +9,9 @@ export default function Cube(width,height,depth,spawn,x=0,z=0){
     addBorder(Cube)
     Cube.spawn = spawn
     if (spawn){
-        Cube.position.set(x,height/2,d * aspect)
+        Cube.position.set(x,-scene.position.y + height/2 ,d * aspect)
     } else {
-        Cube.position.set(d * aspect,height/2,z)
+        Cube.position.set(d * aspect,-scene.position.y+ height/2 ,z)
     }
 
     return Cube
