@@ -17,9 +17,10 @@ const gameProps = {
                 global.scene.remove( cube )
             }
         })
-        
+
         global.scene.position.y = 0
         this.points = 0
+        this.UpdatePoints()
         this.velocidad = 0.4
         this.largo = 10
         this.ancho = 10
@@ -66,13 +67,12 @@ const gameProps = {
         return false
     },
     UpdatePoints: function(){
-        this.points += 15
         document.getElementById('Points').innerHTML = this.points
     }
 
 
 }
-gameProps.cube = Cube(gameProps.largo,gameProps.alto,gameProps.ancho,1)
+gameProps.cube = Cube(gameProps.largo,gameProps.alto,gameProps.ancho,0)
 gameProps.base = Base(gameProps.largo)
 gameProps.cubes.push(gameProps.base)
 

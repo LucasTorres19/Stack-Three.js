@@ -29,15 +29,15 @@ const setup = function () {
     // global.scene.add( circle )
 }
 
-const UpScene = function(count, prevCube){
+const UpScene = function(count){
     const UpSceneId = requestAnimationFrame( function(){
-        UpScene(count, prevCube)
+        UpScene(count)
     } );
     global.scene.position.y -= 0.1
     count += 0.1
     if (count >= gameProps.alto){
         cancelAnimationFrame( UpSceneId )
-        gameProps.cube = Cube(gameProps.largo,gameProps.alto,gameProps.ancho,Number(!gameProps.cube.spawn), prevCube.position.x, prevCube.position.z)
+        gameProps.cube = Cube(gameProps.largo,gameProps.alto,gameProps.ancho,Number(!gameProps.cube.spawn), gameProps.cube.position.x, gameProps.cube.position.z)
         global.scene.add( gameProps.cube )
         animate()
     }
@@ -50,31 +50,47 @@ const animate = function () {
     if (gameProps.clicked){ 
         if(gameProps.LoseCheck()){
             cancelAnimationFrame( gameProps.animateId )
-            AnimationLose(-global.d * global.aspect)
+            AnimationLose(gameProps.cube)
             gameProps.reset()
             
             
         } else {
+            gameProps.points += 15
             gameProps.UpdatePoints()
             // cambiamos el obj
             let prevCube = gameProps.cubes[gameProps.cubes.length - 1]
+            let cubeFalling = {};
             if (gameProps.cube.spawn){
                 const prevAncho = gameProps.ancho
                 gameProps.ancho -= Math.abs(gameProps.cube.position.z-prevCube.position.z )
+                const cubeFallingAncho = prevAncho-gameProps.ancho
+                cubeFalling = Cube(gameProps.largo,gameProps.alto,cubeFallingAncho,prevCube.spawn)
+                cubeFalling.position.x = gameProps.cube.position.x
                 if (gameProps.cube.position.z > prevCube.position.z){
+
                     gameProps.cube.position.z = ((prevCube.position.z + prevAncho/2) - gameProps.ancho/2)
+                    cubeFalling.position.z = gameProps.cube.position.z + gameProps.ancho/2 + cubeFallingAncho/2
                 } else{
                     gameProps.cube.position.z = ((prevCube.position.z - prevAncho/2) + gameProps.ancho/2)
+                    cubeFalling.position.z = gameProps.cube.position.z - gameProps.ancho/2 - cubeFallingAncho/2
                 }
             }else {
                 const prevLargo = gameProps.largo
                 gameProps.largo -= Math.abs(gameProps.cube.position.x-prevCube.position.x )
+                const cubeFallingLargo = prevLargo-gameProps.largo
+                cubeFalling = Cube(cubeFallingLargo,gameProps.alto,gameProps.ancho,prevCube.spawn)
+                cubeFalling.position.z = gameProps.cube.position.z
                 if (gameProps.cube.position.x > prevCube.position.x){
                     gameProps.cube.position.x = ((prevCube.position.x + prevLargo/2) - gameProps.largo/2)
+                    cubeFalling.position.x = gameProps.cube.position.x + gameProps.largo/2 + cubeFallingLargo/2
                 } else {
                     gameProps.cube.position.x = ((prevCube.position.x - prevLargo/2) + gameProps.largo/2)
+                    cubeFalling.position.x = gameProps.cube.position.x - gameProps.largo/2 - cubeFallingLargo/2
                 }
+                
             }
+            global.scene.add( cubeFalling )
+            AnimationLose( cubeFalling )
             global.scene.remove( gameProps.cube )
 
             
@@ -83,7 +99,7 @@ const animate = function () {
             gameProps.cube.position.set(prevCube.position.x, prevCube.position.y, prevCube.position.z)
             global.scene.add( gameProps.cube )
             gameProps.cubes.push(gameProps.cube)
-            UpScene(0, prevCube)
+            UpScene(0)
             
             cancelAnimationFrame( gameProps.animateId )
 
@@ -97,19 +113,23 @@ const animate = function () {
     
 };
 
-const AnimationLose = function (finalY) {
+const AnimationLose = function (obj) {
+    if (obj === gameProps.cube){
     gameProps.clicked = false
+    }
     const AnimationLoseId = requestAnimationFrame( function(){
-        AnimationLose(finalY)
+        AnimationLose(obj)
     } )
 
-    gameProps.cube.position.y -= gameProps.velocidad
-    if(gameProps.cube.position.y <= finalY){
-        global.scene.remove( gameProps.cube )
-        animate()
+    obj.position.y -= gameProps.velocidad
+    if(obj.position.y <= -global.d * global.aspect){
+        global.scene.remove( obj )
         cancelAnimationFrame(AnimationLoseId)
-        gameProps.cube = Cube(gameProps.largo,gameProps.alto,gameProps.ancho,Number(!gameProps.cube.spawn))
-        global.scene.add( gameProps.cube );
+        if (obj === gameProps.cube){
+            animate()
+            gameProps.cube = Cube(gameProps.largo,gameProps.alto,gameProps.ancho,Number(!gameProps.cube.spawn))
+            global.scene.add( gameProps.cube );
+        }
     }
     global.renderer.render( global.scene, global.camera );
 }
