@@ -11,6 +11,11 @@ const gameProps = {
     clicked: false,
     back: false,
     reset: function(){
+        this.cubes.forEach((cube, i) => {
+            if (i){
+                global.scene.remove( cube )
+            }
+        })
         this.velocidad = 0.4,
         this.largo = 10,
         this.ancho = 10,
@@ -18,6 +23,7 @@ const gameProps = {
         this.cubes = [this.base],
         this.clicked = false,
         this.back = false
+        this.cubes[0].position.y = -15
     },
     Movements: function(axe){
         if (this.back){

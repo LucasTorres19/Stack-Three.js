@@ -19,7 +19,6 @@ const setup = function () {
         gameProps.clicked = true
     }, false)
     document.addEventListener('keypress', (e) => {
-        console.log(e)
         if (e.target.key = " "){
             gameProps.clicked = true
         }
